@@ -1,11 +1,10 @@
 # <img src="public/icons/icon_48.png" width="45" align="left"> Wine Rating Extension
 
-My Chrome Extension
+A chrome extension to view wine ratings from Vivino on Systembolaget's website.
 
 ## Features
 
-- Feature 1
-- Feature 2
+- View wine ratings from Vivino on Systembolaget's website.
 
 ## Install
 
@@ -17,5 +16,6 @@ Suggestions and pull requests are welcomed!.
 
 ---
 
-This project was bootstrapped with [Chrome Extension CLI](https://github.com/dutiyesh/chrome-extension-cli)
+This project was greatly inspired by <https://github.com/lazyd3v/vivino-systembolaget>
 
+This project was bootstrapped with [Chrome Extension CLI](https://github.com/dutiyesh/chrome-extension-cli)
