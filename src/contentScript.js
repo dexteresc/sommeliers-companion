@@ -1,43 +1,127 @@
-'use strict';
+function getRating(query) {
+  return new Promise((resolve, reject) => {
+    chrome.runtime.sendMessage(
+      { type: 'getRating', query },
+      (messageResponse) => {
+        const [response, error] = messageResponse;
 
-// Content script file will run in the context of web page.
-// With content script you can manipulate the web pages using
-// Document Object Model (DOM).
-// You can also pass information to the parent extension.
+        console.log(`Rating response for ${query}:`, response);
+        console.log(`Rating error for ${query}:`, error);
 
-// We execute this script by making an entry in manifest.json file
-// under `content_scripts` property
+        if (!response) {
+          reject(error);
+        }
 
-// For more information on Content Scripts,
-// See https://developer.chrome.com/extensions/content_scripts
+        resolve(response);
+      }
+    );
+  });
+}
 
-// Log `title` of current active web page
-const pageTitle = document.head.getElementsByTagName('title')[0].innerHTML;
-console.log(
-  `Page title is: '${pageTitle}' - evaluated by Chrome extension's 'contentScript.js' file`
-);
+function initializeScript() {
+  console.log('Initializing script...');
+  appendRatings();
 
-// Communicate with background file by sending a message
-chrome.runtime.sendMessage(
-  {
-    type: 'GREETINGS',
-    payload: {
-      message: 'Hello, my name is Con. I am from ContentScript.',
-    },
-  },
-  (response) => {
-    console.log(response.message);
+  // Create an observer instance linked to the callback function
+  const observer = new MutationObserver(() => {
+    appendRatings();
+  });
+
+  // Start observing the document with the configured mutations
+  observer.observe(document, { childList: true, subtree: true });
+}
+
+function appendRatings() {
+  const wineListItems = document.querySelectorAll(
+    'a[id*="tile"][href*="/vin/"]:not([href="/vin/"]):not([href="/sortiment/vin/"])'
+  );
+
+  console.log(`Found ${wineListItems.length} wine list items.`);
+
+  wineListItems.forEach((item, index) => {
+    console.log(`Appending rating to wine list item ${index + 1}...`);
+    appendRating(item);
+  });
+}
+
+// Create a Set to keep track of elements currently fetching a rating
+const fetchingRating = new Set();
+
+async function appendRating(element) {
+  // If the element has the 'has-rating' class or a rating is being fetched for this element, don't append a rating
+  if (element.classList.contains('has-rating') || fetchingRating.has(element)) {
+    return;
   }
-);
 
-// Listen for message
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.type === 'COUNT') {
-    console.log(`Current count is ${request.payload.count}`);
+  // Start fetching the rating for this element
+  fetchingRating.add(element);
+
+  element.parentElement.style.position = 'relative';
+  console.log(element);
+  const div = element.querySelector(
+    ':scope > div > div:nth-last-child(2) > div > div:nth-child(2)'
+  );
+  if (!div) {
+    console.log(`No last div found in element with id ${element.id}`);
+    return;
   }
 
-  // Send an empty response
-  // See https://github.com/mozilla/webextension-polyfill/issues/130#issuecomment-531531890
-  sendResponse({});
-  return true;
-});
+  // Get all paragraph elements within the second div
+  const nameParagraphs = Array.from(div.querySelectorAll('p'));
+
+  if (nameParagraphs.length < 2) {
+    console.log(
+      `Not enough name paragraphs found in element with id ${element.id}`
+    );
+    return;
+  }
+
+  // Concatenate the text from the first two paragraphs to get the wine name
+  const wineName = `${nameParagraphs[1].innerText} ${nameParagraphs[2].innerText}`;
+
+  console.log(`Wine name: ${wineName}`);
+
+  if (!wineName) {
+    return;
+  }
+
+  console.log(`Getting rating for ${wineName}...`);
+
+  try {
+    console.log(`Getting rating for ${wineName}...`);
+    const { score, numOfReviews, url } = await getRating(wineName);
+
+    console.log(
+      `Score: ${score}, Number of reviews: ${numOfReviews}, URL: ${url}`
+    );
+
+    const priceElement = document.createElement('a');
+    priceElement.href = url;
+    priceElement.innerText = `${score} (${numOfReviews} reviews)`;
+    priceElement.style.fontFamily = 'system-ui';
+    priceElement.style.backgroundColor = '#095741';
+    priceElement.style.display = 'flex';
+    priceElement.style.alignSelf = 'end';
+    priceElement.style.padding = '0.2em 0.5em';
+    priceElement.style.borderRadius = '0.5em';
+    priceElement.style.color = 'white';
+    priceElement.style.marginTop = '0.2em';
+    priceElement.style.marginRight = '0.2em';
+
+    console.log('Created price element:', priceElement);
+    console.log('Appending price element to ', element);
+    element.appendChild(priceElement);
+
+    // Add the 'has-rating' class to the element
+    element.classList.add('has-rating');
+  } catch (e) {
+    console.error(`${wineName} is not found on Vivino`, e);
+    element.classList.add('has-rating');
+    element.appendChild(document.createTextNode('Not found on Vivino'));
+  } finally {
+    // Done fetching the rating for this element
+    fetchingRating.delete(element);
+  }
+}
+
+window.addEventListener('load', initializeScript);
