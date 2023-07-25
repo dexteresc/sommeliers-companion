@@ -5,8 +5,8 @@ function getRating(query) {
       (messageResponse) => {
         const [response, error] = messageResponse;
 
-        console.log(`Rating response for ${query}:`, response);
-        console.log(`Rating error for ${query}:`, error);
+        // console.log(`Rating response for ${query}:`, response);
+        // console.log(`Rating error for ${query}:`, error);
 
         if (!response) {
           reject(error);
