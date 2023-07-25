@@ -1,7 +1,7 @@
 {
   "name": "wine-rating-extension",
   "version": "0.1.0",
-  "description": "My Chrome Extension",
+  "description": "A chrome extension to view wine ratings from Vivino on Systembolaget's website.",
   "private": true,
   "scripts": {
     "watch": "webpack --mode=development --watch --config config/webpack.config.js",
