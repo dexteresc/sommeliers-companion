@@ -82,6 +82,12 @@ async function appendRating(element) {
 
   try {
     const { score, numOfReviews, url } = await getRating(wineName);
+    // increment successfulRequests count
+    chrome.storage.local.get(['successfulRequests'], function (result) {
+      let successfulRequests = result.successfulRequests || 0;
+      successfulRequests++;
+      chrome.storage.local.set({ successfulRequests });
+    });
 
     const priceElement = document.createElement('a');
     priceElement.href = url;
@@ -96,12 +102,17 @@ async function appendRating(element) {
     priceElement.style.marginTop = '0.2em';
     priceElement.style.marginRight = '0.2em';
 
-    element.appendChild(priceElement);
+    element.prepend(priceElement);
 
     // Add the 'has-rating' class to the element
     element.classList.add('has-rating');
   } catch (e) {
     console.error(`${wineName} is not found on Vivino`, e);
+    chrome.storage.local.get(['failedRequests'], function (result) {
+      let failedRequests = result.failedRequests || 0;
+      failedRequests++;
+      chrome.storage.local.set({ failedRequests });
+    });
     element.classList.add('has-rating');
     element.appendChild(document.createTextNode('Not found on Vivino'));
   } finally {
