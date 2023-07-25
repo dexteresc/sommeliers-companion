@@ -39,7 +39,6 @@ function appendRatings() {
   console.log(`Found ${wineListItems.length} wine list items.`);
 
   wineListItems.forEach((item, index) => {
-    console.log(`Appending rating to wine list item ${index + 1}...`);
     appendRating(item);
   });
 }
@@ -99,7 +98,7 @@ async function appendRating(element) {
     priceElement.href = url;
     priceElement.innerText = `${score} (${numOfReviews} reviews)`;
     priceElement.style.fontFamily = 'system-ui';
-    priceElement.style.backgroundColor = '#095741';
+    priceElement.style.backgroundColor = '#800020';
     priceElement.style.display = 'flex';
     priceElement.style.alignSelf = 'end';
     priceElement.style.padding = '0.2em 0.5em';
@@ -108,8 +107,6 @@ async function appendRating(element) {
     priceElement.style.marginTop = '0.2em';
     priceElement.style.marginRight = '0.2em';
 
-    console.log('Created price element:', priceElement);
-    console.log('Appending price element to ', element);
     element.appendChild(priceElement);
 
     // Add the 'has-rating' class to the element
