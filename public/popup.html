@@ -7,22 +7,41 @@
   </head>
   <body>
     <div class="app">
-      <p>
-        Visit
-        <a href="https://cors-anywhere.herokuapp.com/" target="_blank"
-          >https://cors-anywhere.herokuapp.com/</a
-        >
-        and click get access to get access to ratings.
-      </p>
+      <header class="app__header">
+        <img class="app__icon" src="icons/icon_32.png" alt="Extension icon" />
+        <h1 class="app__title">Wine ratings extension</h1>
+      </header>
+
+      <section class="instructions">
+        <h2 class="instructions__title">Not working?</h2>
+        <p class="instructions__text">
+          Visit
+          <a
+            class="instructions__link"
+            href="https://cors-anywhere.herokuapp.com/"
+            target="_blank"
+          >
+            cors-anywhere.herokuapp.com
+          </a>
+          and click get access to get access to ratings.
+        </p>
+      </section>
+
+      <section class="stats">
+        <h2 class="stats__title">Stats</h2>
+        <p class="stats__item">
+          Successful Requests: <code id="successfulRequests"></code>
+        </p>
+        <p class="stats__item">
+          Failed Requests: <code id="failedRequests"></code>
+        </p>
+      </section>
+
+      <section class="actions">
+        <button class="actions__button" id="clearCache">Clear cache</button>
+      </section>
     </div>
 
     <script src="popup.js"></script>
-
-    <!--
-      This HTML file opens when you click on icon from the toolbar.
-
-      To begin the development, run `npm run watch`.
-      To create a production bundle, use `npm run build`.
-    -->
   </body>
 </html>

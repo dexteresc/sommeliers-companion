@@ -2,26 +2,38 @@
 
 import './popup.css';
 
-(function () {
-  // We will make use of Storage API to get and store `count` value
-  // More information on Storage API can we found at
-  // https://developer.chrome.com/extensions/storage
+(async function () {
+  const [{ successfulRequests }, { failedRequests }] = await Promise.all([
+    new Promise((resolve) =>
+      chrome.storage.local.get(['successfulRequests'], resolve)
+    ),
+    new Promise((resolve) =>
+      chrome.storage.local.get(['failedRequests'], resolve)
+    ),
+  ]);
 
-  // To get storage access, we have to mention it in `permissions` property of manifest.json file
-  // More information on Permissions can we found at
-  // https://developer.chrome.com/extensions/declare_permissions
+  document.getElementById('successfulRequests').innerText =
+    successfulRequests || 0;
+  document.getElementById('failedRequests').innerText = failedRequests || 0;
 
+  function clearCache() {
+    return new Promise((resolve, reject) => {
+      chrome.storage.local.clear(() => {
+        const error = chrome.runtime.lastError;
+        if (error) {
+          console.error(error);
+          reject(error);
+        } else {
+          console.log('Cache cleared!');
+          resolve();
+        }
+      });
+    });
+  }
 
-  // Communicate with background file by sending a message
-  chrome.runtime.sendMessage(
-    {
-      type: 'GREETINGS',
-      payload: {
-        message: 'Hello, my name is Pop. I am from Popup.',
-      },
-    },
-    (response) => {
-      console.log(response.message);
-    }
-  );
+  document.getElementById('clearCache').addEventListener('click', () => {
+    clearCache().catch((error) => {
+      console.error(`Failed to clear cache: ${error}`);
+    });
+  });
 })();
