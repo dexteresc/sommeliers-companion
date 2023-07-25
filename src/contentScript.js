@@ -19,7 +19,6 @@ function getRating(query) {
 }
 
 function initializeScript() {
-  console.log('Initializing script...');
   appendRatings();
 
   // Create an observer instance linked to the callback function
@@ -35,8 +34,6 @@ function appendRatings() {
   const wineListItems = document.querySelectorAll(
     'a[id*="tile"][href*="/vin/"]:not([href="/vin/"]):not([href="/sortiment/vin/"])'
   );
-
-  console.log(`Found ${wineListItems.length} wine list items.`);
 
   wineListItems.forEach((item, index) => {
     appendRating(item);
@@ -56,7 +53,6 @@ async function appendRating(element) {
   fetchingRating.add(element);
 
   element.parentElement.style.position = 'relative';
-  console.log(element);
   const div = element.querySelector(
     ':scope > div > div:nth-last-child(2) > div > div:nth-child(2)'
   );
@@ -84,15 +80,8 @@ async function appendRating(element) {
     return;
   }
 
-  console.log(`Getting rating for ${wineName}...`);
-
   try {
-    console.log(`Getting rating for ${wineName}...`);
     const { score, numOfReviews, url } = await getRating(wineName);
-
-    console.log(
-      `Score: ${score}, Number of reviews: ${numOfReviews}, URL: ${url}`
-    );
 
     const priceElement = document.createElement('a');
     priceElement.href = url;
