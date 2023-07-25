@@ -1,21 +1,27 @@
-'use strict';
+import { configureFetchCache } from "./api/fetch";
+import getRating from "./api/getRating";
 
-// With background scripts you can communicate with popup
-// and contentScript files.
-// For more information on background script,
-// See https://developer.chrome.com/extensions/background_pages
+const setup = async () => {
+  await configureFetchCache();
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.type === 'GREETINGS') {
-    const message = `Hi ${
-      sender.tab ? 'Con' : 'Pop'
-    }, my name is Bac. I am from Background. It's great to hear from you.`;
+  chrome.runtime.onMessage.addListener(function (
+    request,
+    sender,
+    sendResponse
+  ) {
+    if (request.type === "getRating") {
+      console.log(`Getting rating for: ${request.query}`);
+      getRating(request.query)
+        .then((response) => sendResponse([response, null]))
+        .catch((error) => {
+          console.log(error)
+          sendResponse([null, error]);
+        });
 
-    // Log message coming from the `request` parameter
-    console.log(request.payload.message);
-    // Send a response message
-    sendResponse({
-      message,
-    });
-  }
-});
+      // Important: return true from the event listener to indicate you wish to send a response asynchronously
+      return true;
+    }
+  });
+};
+
+setup();
