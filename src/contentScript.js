@@ -114,7 +114,7 @@ async function appendRating(element) {
       chrome.storage.local.set({ failedRequests });
     });
     element.classList.add('has-rating');
-    element.appendChild(document.createTextNode('Not found on Vivino'));
+    element.prepend(document.createTextNode('Not found on Vivino'));
   } finally {
     // Done fetching the rating for this element
     fetchingRating.delete(element);
