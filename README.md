@@ -1,4 +1,4 @@
-# <img src="public/icons/icon_48.png" width="45" align="left"> Wine Rating Extension
+# <img src="public/icons/icon_48.png" width="45" align="left"> Sommelier's Companion
 
 A chrome extension to view wine ratings from Vivino on Systembolaget's website.
 
