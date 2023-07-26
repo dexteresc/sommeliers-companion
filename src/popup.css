@@ -8,84 +8,153 @@
 }
 /* normalize css ends here */
 
-html {
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
-    sans-serif;
-  color: #222;
+:root {
+  --text-color: #e9e9e9;
+  --color-primary: #dc6986;
+  --color-red: #dc6969;
+  --color-green: #87dc69;
+  --background-color: #2a2a2a;
+  --background-color-light: #3b3b3b;
+  --bacgkround-color-inactive: #5f5f5f;
 }
 
 body {
-  width: 250px;
-  height: 240px;
-  background-color: #2a2a2a;
-  color: #e9e9e9;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.app__header {
-  display: flex;
-  align-items: center;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
-  border-bottom: 1px solid #e9e9e9;
-}
-
-.app__icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
-.instructions__link {
-  color: #959dfb;
-  text-decoration: none;
-}
-
-.app__title {
-  font-size: 18px;
-  font-weight: 600;
-}
-
-section {
-  margin-bottom: 10px;
-}
-
-.instructions__title,
-.stats__title {
-  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+    sans-serif;
+  color: #222;
+  width: 260px;
+  height: 360px;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 .app {
-  height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   padding: 10px;
 }
 
-code {
-  font-size: 12px;
-  font-family: inherit;
-  background-color: rgba(254, 237, 185, 0.3);
-  padding: 2px 4px;
-  border-radius: 2px;
+.header {
+  display: flex;
+  align-items: center;
 }
 
-.actions__button {
-  border: 0;
+.icon {
+  margin-right: 5px;
+}
+
+.title {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.subtitle {
+  font-size: 0.8rem;
+  color: var(--color-primary);
+}
+
+.header,
+.section-title,
+.actions,
+.stats {
+  margin-bottom: 5px;
+}
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.stats,
+.actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  background-color: var(--background-color-light);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.actions {
+  flex-direction: row;
+}
+
+.entry .value {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.green {
+  background-color: var(--color-green);
+}
+
+.red {
+  background-color: var(--color-red);
+}
+
+.checkbox {
+  display: none; /* Hide the checkbox */
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  user-select: none;
+  height: 100%;
+  padding: 10px 20px;
+  background-color: var(--bacgkround-color-inactive); /* Inactive color */
+  color: var(--text-color);
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.checkbox:checked + .label {
+  background-color: var(--color-primary); /* Active color */
+}
+
+.button {
   display: inline-block;
   padding: 5px 10px;
-  margin-right: 4px;
-  margin-left: 4px;
-  font-size: 16px;
+  background-color: var(--bacgkround-color-inactive); /* Inactive color */
+  color: var(--text-color);
+  text-align: center;
+  border-radius: 5px;
   cursor: pointer;
-  border-radius: 4px;
-  text-decoration: none;
-  transition: transform 0.2s ease;
-  user-select: none;
+  outline: none;
+  border: none;
 }
 
-.actions__button:focus {
-  outline: none;
+.switch,
+.buttons {
+  width: 100%;
+}
+
+.switch {
+  margin-right: 5px;
+}
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
+
+.buttons .button:not(:last-child) {
+  margin-bottom: 5px;
+}
+
+.button {
+  width: 100%;
+}
+
+.difficulty {
+  font-size: medium;
 }

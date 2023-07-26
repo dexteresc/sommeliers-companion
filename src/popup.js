@@ -36,4 +36,15 @@ import './popup.css';
       console.error(`Failed to clear cache: ${error}`);
     });
   });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    let proxySwitch = document.getElementById('proxySwitch');
+
+    // Load switch state from localStorage
+    proxySwitch.checked = localStorage.getItem('useProxy') === 'true';
+
+    proxySwitch.addEventListener('change', function () {
+      localStorage.setItem('useProxy', this.checked);
+    });
+  });
 })();

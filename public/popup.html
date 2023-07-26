@@ -2,46 +2,49 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>My Chrome Extension</title>
+    <title>Sommelier's Companion</title>
     <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
     <div class="app">
-      <header class="app__header">
-        <img class="app__icon" src="icons/icon_32.png" alt="Extension icon" />
-        <h1 class="app__title">Wine ratings extension</h1>
+      <header class="header">
+        <img class="icon" src="icons/icon_32.png" alt="Extension icon" />
+        <div class="header__info">
+          <h1 class="title">Sommelier's Companion</h1>
+          <p class="subtitle">Systembolaget</p>
+        </div>
       </header>
-
-      <section class="instructions">
-        <h2 class="instructions__title">Not working?</h2>
-        <p class="instructions__text">
-          Visit
-          <a
-            class="instructions__link"
-            href="https://cors-anywhere.herokuapp.com/"
-            target="_blank"
-          >
-            cors-anywhere.herokuapp.com
-          </a>
-          and click get access to get access to ratings.
-        </p>
-      </section>
-
+      <h2 class="section-title">Statistics</h2>
       <section class="stats">
-        <h2 class="stats__title">Stats</h2>
-        <p class="stats__item">
-          Successful Requests: <code id="successfulRequests"></code>
+        <p class="entry">
+          Vintage Profiles Accessed:
+          <span class="value green" id="successfulRequests"></span>
         </p>
-        <p class="stats__item">
-          Failed Requests: <code id="failedRequests"></code>
+        <p class="entry">
+          Unretrieved Profiles:
+          <span class="value red" id="failedRequests"></span>
         </p>
       </section>
-
+      <h2 class="section-title">Actions</h2>
       <section class="actions">
-        <button class="actions__button" id="clearCache">Clear cache</button>
+        <div class="switch">
+          <input type="checkbox" class="checkbox" id="proxySwitch" />
+          <label class="label" for="proxySwitch">
+            <span class="text">Enable Proxy</span>
+          </label>
+        </div>
+        <div class="buttons">
+          <a href="https://cors-anywhere.herokuapp.com/corsdemo" class="button">Proxy Provider</a>
+          <button class="button" id="clearCache">Clear Cache</button>
+        </div>
       </section>
+      <h2 class="difficulty">Encountering difficulties?</h2>
+      <p class="help">
+        Enable the proxy and by visiting clicking on "Proxy Provider" and
+        selecting "Request Temporary Access to Demo Server" for a seamless
+        experience.
+      </p>
     </div>
-
     <script src="popup.js"></script>
   </body>
 </html>
