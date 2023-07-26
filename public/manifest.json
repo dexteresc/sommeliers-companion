@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Wine Rating Extension",
+  "name": "Sommelier's Companion",
   "version": "0.1.0",
-  "description": "My Chrome Extension",
+  "description": "A chrome extension to view wine ratings from Vivino on Systembolaget's website.",
   "icons": {
     "16": "icons/icon_16.png",
     "32": "icons/icon_32.png",

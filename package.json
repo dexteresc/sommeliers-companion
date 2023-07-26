@@ -1,5 +1,5 @@
 {
-  "name": "wine-rating-extension",
+  "name": "sommeliers-companion",
   "version": "0.1.0",
   "description": "A chrome extension to view wine ratings from Vivino on Systembolaget's website.",
   "private": true,
